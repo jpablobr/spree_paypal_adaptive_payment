@@ -1,0 +1,64 @@
+
+db/migrate/20100226133156_create_paypal_adaptive_payment_accounts.rb,128
+class CreatePaypalAccounts < ActiveRecord::MigrationCreatePaypalAccounts1,0
+  def self.upup2,53
+  def self.downdown12,251
+
+spec/spec_helper.rb,32
+  def self.globalglobal35,989
+
+spec/controllers/checkout_controller_spec.rb,0
+
+spec/factories/order_factory.rb,0
+
+spec/factories/state_factory.rb,0
+
+spec/factories/address_factory.rb,0
+
+config/routes.rb,0
+
+app/controllers/checkout_controller_decorator.rb,887
+  def paypal_adaptive_payment_confirmpaypal_adaptive_payment_confirm6,192
+  def paypal_adaptive_payment_detailspaypal_adaptive_payment_details87,3119
+  def paypal_adaptive_payment_finishpaypal_adaptive_payment_finish101,3628
+  def record_log(payment, response)record_log160,5556
+  def redirect_to_paypal_adaptive_payment_form_if_neededredirect_to_paypal_adaptive_payment_form_if_needed164,5660
+  def fixed_optsfixed_opts179,6256
+  def order_opts(order, payment_method, stage)order_opts209,7591
+  def address_options(order)address_options266,10332
+  def all_opts(order, payment_method, stage=nil)all_opts287,11108
+  def flat_rate_shipping_and_handling_options(order, stage)flat_rate_shipping_and_handling_options301,11591
+  def gateway_error(response)gateway_error324,12573
+  def payment_methodpayment_method338,12924
+  def paypal_gatewaypaypal_gateway342,13003
+
+app/controllers/paypal_adaptive_payment_callbacks_controller.rb,191
+class PaypalAdaptivePaymentCallbacksController < Spree::BaseControllerPaypalAdaptivePaymentCallbacksController1,0
+  def notifynotify7,184
+    def retrieve_detailsretrieve_details32,875
+
+app/models/paypal_adaptive_payment_account.rb,596
+class PaypalAdaptivePaymentAccount < ActiveRecord::BasePaypalAdaptivePaymentAccount2,89
+  def actionsactions5,183
+  def capture(payment)capture9,227
+  def can_capture?(payment)can_capture?22,585
+  def credit(payment, amount=nil)credit26,672
+  def can_credit?(payment)can_credit?43,1294
+  def payment_gatewaypayment_gateway51,1561
+  def echeck?(payment)echeck?55,1600
+  def record_log(payment, response)record_log66,1896
+  def find_authorization(payment)find_authorization71,2010
+  def find_capture(payment)find_capture82,2378
+  def gateway_error(text)gateway_error94,2762
+
+app/models/billing_integration/paypal_adaptive_payment.rb,134
+class BillingIntegration::PaypalAdaptivePayment < BillingIntegrationBillingIntegration1,0
+  def provider_classprovider_class9,300
+
+lib/spree_paypal_adaptive_payment_hooks.rb,110
+class SpreePaypalAdaptivePaymentHooks < Spree::ThemeSupport::HookListenerSpreePaypalAdaptivePaymentHooks1,0
+
+lib/spree_paypal_adaptive_payment.rb,147
+module SpreePaypalAdaptivePaymentSpreePaypalAdaptivePayment4,68
+  class Engine < Rails::EngineEngine5,102
+    def self.activateactivate9,187
