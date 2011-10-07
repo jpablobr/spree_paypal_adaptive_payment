@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_paypal_adaptive_payment'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.summary     = 'Add PayPal Adaptive Payments to Spree store'
   s.homepage    = 'https://github.com/jpablobr/spree_paypal_adaptive_payment'
   s.author      = 'Jose Pablo Barrantes'
