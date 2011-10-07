@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     end
   end
 
-  match '/checkout/paypal_adaptive_payment_finish' => 'checkout#paypal_adaptive_payment_finish', :via => [:get, :post]
   match '/paypal_adaptive_payment_notify' => 'paypal_adaptive_payment_callbacks#notify', :via => [:get, :post]
 
   namespace :admin do

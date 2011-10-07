@@ -1,6 +1,6 @@
-class CreatePaypalAccounts < ActiveRecord::Migration
+class CreatePaypalAdaptivePaymentAccounts < ActiveRecord::Migration
   def self.up
-    create_table :paypal_accounts do |t|
+    create_table :paypal_adaptive_payment_accounts do |t|
       t.string :email
       t.string :payer_id
       t.string :appid
@@ -10,6 +10,6 @@ class CreatePaypalAccounts < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :paypal_accounts
+    drop_table :paypal_adaptive_payment_accounts
   end
 end

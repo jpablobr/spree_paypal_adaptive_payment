@@ -9,18 +9,18 @@ class PaypalAdaptivePaymentAccount < ActiveRecord::Base
   def capture(payment)
     authorization = find_authorization(payment)
 
-    ppx_response = payment.payment_method.provider.capture((100 * payment.amount).to_i, authorization.params["transaction_id"])
-    if ppx_response.success?
-      record_log payment, ppx_response
+    ap_response = payment.payment_method.provider.capture((100 * payment.amount).to_i, authorization.params["transaction"]["0"][".id"])
+    if ap_response.success?
+      record_log payment, ap_response
       payment.complete
     else
-      gateway_error(ppx_response.message)
+      gateway_error(ap_response.message)
     end
 
   end
 
   def can_capture?(payment)
-    !echeck?(payment) && payment.state == "pending"
+    !echeck?(payment) && payment.state == "PENDING"
   end
 
   def credit(payment, amount=nil)
@@ -28,21 +28,20 @@ class PaypalAdaptivePaymentAccount < ActiveRecord::Base
 
     amount = payment.credit_allowed >= payment.order.outstanding_balance.abs ? payment.order.outstanding_balance : payment.credit_allowed
 
-    ppx_response = payment.payment_method.provider.credit(amount.nil? ? (100 * amount).to_i : (100 * amount).to_i, authorization.params['transaction_id'])
+    ap_response = payment.payment_method.provider.credit(amount.nil? ? (100 * amount).to_i : (100 * amount).to_i, authorization.params["transaction"]["0"][".id"])
 
-    if ppx_response.success?
-      record_log payment, ppx_response
+    if ap_response.success?
+      record_log payment, ap_response
       payment.update_attribute(:amount, payment.amount - amount)
       payment.complete
       payment.order.update!
     else
-      gateway_error(ppx_response.message)
+      gateway_error(ap_response.message)
     end
   end
 
   def can_credit?(payment)
-    return false unless payment.state == "completed"
-    return false unless payment.order.payment_state == "credit_owed"
+    return false unless payment.state == "COMPLETED"
     payment.credit_allowed > 0
     !find_capture(payment).nil?
   end
@@ -56,7 +55,7 @@ class PaypalAdaptivePaymentAccount < ActiveRecord::Base
     logs = payment.log_entries.all(:order => 'created_at DESC')
     logs.each do |log|
       details = YAML.load(log.details) # return the transaction details
-      if details.params['payment_type'] == 'echeck'
+      if details.params['type'] == 'echeck'
         return true
       end
     end
@@ -72,7 +71,7 @@ class PaypalAdaptivePaymentAccount < ActiveRecord::Base
     logs = payment.log_entries.all(:order => 'created_at DESC')
     logs.each do |log|
       details = YAML.load(log.details) # return the transaction details
-      if (details.params['payment_status'] == 'Pending' && details.params['pending_reason'] == 'authorization')
+      if (details.params['status'] == 'PENDING')
         return details
       end
     end
@@ -84,8 +83,8 @@ class PaypalAdaptivePaymentAccount < ActiveRecord::Base
     logs = payment.log_entries.all(:order => 'created_at DESC')
     logs.each do |log|
       details = YAML.load(log.details) # return the transaction details
-      if details.params['payment_status'] == 'Completed'
-        return details
+      if details.params['status'] == 'COMPLETED'
+        RETURN details
       end
     end
     return nil
